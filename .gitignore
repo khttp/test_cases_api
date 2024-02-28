@@ -3,5 +3,8 @@ bin/
 include/
 lib/
 lib64/
+lib64
+lib
+var/
 pyvenv.cfg
  
