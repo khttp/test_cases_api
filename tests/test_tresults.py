@@ -33,6 +33,7 @@ def create_test_asset(client):
         "test_case_id":1}
     response = client.post('/create_test_asset',json=data)
     assert response.status_code == 201
+    return data["id"]
 
 @pytest.fixture
 def create_results(client):
@@ -62,4 +63,10 @@ def test_create_test_results(client,create_test_case,create_test_asset):
         "test_case_id":1,"test_asset_id":1}
     response= client.post("/create_test_result",json=data)
     assert response.status_code == 201
+
+def test_get_test_results(client,create_results,create_test_case,create_test_asset):
+    id =create_test_asset
+    """Test retrieving the testcases."""
+    response= client.get(f"/get_test_results/{id}")
+    assert response.status_code == 200
 # Write additional test functions for other endpoints
