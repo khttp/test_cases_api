@@ -1,4 +1,3 @@
-# • Creating a new test case and storing it in the SQLite database
 from flask import Blueprint, request, jsonify
 from models.model import db, TestCase ,TestAsset,TestResult
 api = Blueprint('api',__name__)
@@ -31,7 +30,7 @@ def get_test_cases():
             return 'no testcases'
         return jsonify({"test_cases":formatted_test_cases}), 200
     except Exception as e:
-        return f'Error {e}',500
+        return jsonify({'message':f'Error {e}'}), 500
 
 # • Retrieving a single test case by its ID from the SQLite database
 @api.route('/get_test_case/<int:id>',methods=['GET'])

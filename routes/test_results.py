@@ -1,4 +1,3 @@
-# • Creating a new test case and storing it in the SQLite database
 from flask import Blueprint, request, jsonify
 from sqlalchemy.orm import joinedload
 from models.model import db, TestResult,TestAsset,TestCase
@@ -20,9 +19,9 @@ def create_test_result():
         testcasesid=[True for testcase in test_cases if testcase.id == test_case_id]
         testassetsid =[True for testasset in test_assets if testasset.id == test_asset_id]
         if True not in testcasesid :
-            return jsonify({'message':"test case not found"})
+            return jsonify({'message':"test case not found"}),404
         if True not in testassetsid:
-            return jsonify({'message':"test asset not found"})
+            return jsonify({'message':"test asset not found"}),404
         test_result = TestResult(
             result=result,
             test_case_id=test_case_id,
@@ -32,7 +31,7 @@ def create_test_result():
         db.session.commit()
         return jsonify({'message': 'Test result created successfully'}), 201
     except Exception as e:
-        return jsonify({'message':f'Error {e}'})
+        return jsonify({'message':f'Error {e}'}),500
     
 #Retrieving the execution results of all test cases for a specific test asset from the SQLite database
 @result_api.route('/get_test_results/<int:asset_id>',methods=['GET'])
