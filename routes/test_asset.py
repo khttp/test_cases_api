@@ -72,3 +72,4 @@ def delete_test_case(id):
         return jsonify({'message':f'test asset with the name {test_asset.name} deleted successfully'}), 200
     except Exception as e:
         db.session.rollback()
+        return jsonify({'message':f'Error {e}'}), 500

@@ -1,6 +1,6 @@
 # • Creating a new test case and storing it in the SQLite database
 from flask import Blueprint, request, jsonify
-from models.model import db, TestCase
+from models.model import db, TestCase ,TestAsset,TestResult
 api = Blueprint('api',__name__)
 
 # create a new test case and store it in the SQLite database
@@ -66,8 +66,11 @@ def update_test_case(id):
 def delete_test_case(id):
     try:
         test_case = TestCase.query.get_or_404(id)
+        test_asset = TestAsset.query.filter_by(test_case_id=id).all()
+        test_result = TestResult.query.filter_by(test_case_id=id).all()
         db.session.delete(test_case)
         db.session.commit()
         return jsonify({'message':f'test case with the name {test_case.name} deleted successfully'}), 200
     except Exception as e:
         db.session.rollback()
+        return jsonify({'message':f'Error {e}'}), 500
