@@ -13,6 +13,16 @@ def create_test_result():
         result = data['result']
         test_case_id = data['test_case_id']
         test_asset_id = data['test_asset_id']
+        
+        test_cases = TestCase.query.all()
+        test_assets =TestAsset.query.all()
+       
+        testcasesid=[True for testcase in test_cases if testcase.id == test_case_id]
+        testassetsid =[True for testasset in test_assets if testasset.id == test_asset_id]
+        if True not in testcasesid :
+            return jsonify({'message':"test case not found"})
+        if True not in testassetsid:
+            return jsonify({'message':"test asset not found"})
         test_result = TestResult(
             result=result,
             test_case_id=test_case_id,
@@ -22,7 +32,7 @@ def create_test_result():
         db.session.commit()
         return jsonify({'message': 'Test result created successfully'}), 201
     except Exception as e:
-        return f'Error {e}',500
+        return jsonify({'message':f'Error {e}'})
     
 #Retrieving the execution results of all test cases for a specific test asset from the SQLite database
 @result_api.route('/get_test_results/<int:asset_id>',methods=['GET'])
@@ -40,4 +50,4 @@ def get_test_results(asset_id):
         } for result in results]
         return jsonify({"results":formatted_results}), 200 
     except Exception as e:
-        return f'Error {e}',500
+        return jsonify({'message':f'Error {e}'})
