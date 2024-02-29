@@ -6,7 +6,7 @@ across multiple test assets, with data stored in a SQLite database.
 1. Set up a SQLite database to store test cases and their execution results with appropriate
 table schema.
 
-<img src="https://github.com/khttp/test_cases_api/blob/master/assets/testcasedbschema.png" alt="image" width="500" height="auto">
+<img src="https://github.com/khttp/test_cases_api/blob/master/assets/Screenshot%20from%202024-02-29%2009-40-58.png" alt="image" width="500" height="auto">
 
 2. Create endpoints for:
    
@@ -19,6 +19,7 @@ table schema.
     -  Retrieving the execution results of all test cases for a specific test asset from the SQLite database
 3. Implement data validation and error handling for each endpoint.
 4. Write unit tests to ensure the functionality of each endpoint.
+5. adding authintication 
 
 
 [postman documentation](https://documenter.getpostman.com/view/9645042/2sA2rFRzKX) 
