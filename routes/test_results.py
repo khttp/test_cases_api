@@ -1,11 +1,11 @@
 from flask import Blueprint, request, jsonify
-from sqlalchemy.orm import joinedload
 from models.model import db, TestResult,TestAsset,TestCase
 result_api = Blueprint('result_api',__name__)
-
+from auth.auth import token_required
 # Recording the execution result of a test case for a specific test asset in the SQLite database
 
 @result_api.route('/create_test_result',methods=['POST'])    
+@token_required
 def create_test_result():
     try:
         data = request.json
@@ -35,6 +35,7 @@ def create_test_result():
     
 #Retrieving the execution results of all test cases for a specific test asset from the SQLite database
 @result_api.route('/get_test_results/<int:asset_id>',methods=['GET'])
+@token_required
 def get_test_results(asset_id):
     try:
         # retrieve all results of all testcases for a specific test asset

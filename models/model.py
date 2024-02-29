@@ -29,4 +29,9 @@ class TestResult(db.Model):
     test_asset_id = db.Column(db.Integer, db.ForeignKey('test_assets.id'))
     test_asset = db.relationship("TestAsset", back_populates="test_results",
                                  load_on_pending=True)
-  
+
+class User(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String, nullable=False)
+    password = db.Column(db.String, nullable=False)

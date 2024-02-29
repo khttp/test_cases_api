@@ -2,10 +2,12 @@
 from flask import Blueprint, request, jsonify
 from models.model import db, TestAsset
 asset_api = Blueprint('asset_api',__name__)
+from auth.auth import token_required 
 
 # create a new test asset and store it in the SQLite database
 
 @asset_api.route('/create_test_asset',methods=['POST'])
+@token_required
 def create_test_asset():
     try:
         data = request.json
@@ -19,6 +21,7 @@ def create_test_asset():
         return f'Error {e}',500
 # • Retrieving a list of all test assets from the SQLite database
 @asset_api.route('/get_test_assets',methods=['GET'])
+@token_required
 def get_test_assets():
     try:
         test_assets = TestAsset.query.all()
@@ -35,6 +38,7 @@ def get_test_assets():
 
 # • Retrieving a single test asset by its ID from the SQLite database
 @asset_api.route('/get_test_asset/<int:id>',methods=['GET'])
+@token_required
 def get_test_asset(id):
     try:
         test_asset = TestAsset.query.get_or_404(id)
@@ -49,6 +53,7 @@ def get_test_asset(id):
 
 # • Updating an existing test asset in the SQLite database
 @asset_api.route('/update_test_asset/<int:id>',methods=['PUT'])
+@token_required
 def update_test_case(id):
     try:
         test_asset = TestAsset.query.get_or_404(id)
@@ -63,6 +68,7 @@ def update_test_case(id):
 
 # Deleting a test asset by its ID from the SQLite database
 @asset_api.route('/delete_test_asset/<int:id>',methods=['DELETE'])
+@token_required
 def delete_test_case(id):
     try:
         test_asset = TestAsset.query.get_or_404(id)

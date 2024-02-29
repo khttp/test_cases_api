@@ -1,6 +1,5 @@
 from flask import Flask
 from models.model import db
-from models.user import db
 from routes.test_case import  api
 from routes.test_asset import  asset_api
 from routes.test_results import  result_api

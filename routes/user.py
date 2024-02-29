@@ -1,10 +1,12 @@
+import datetime
 import hashlib
+import jwt
 from flask import Blueprint, request, jsonify
-from sqlalchemy.orm import joinedload
-from models.user import db, User
+from models.model import db, User
 user_api = Blueprint('user_api',__name__)
 
 @user_api.route('/login_user',methods=['POST'])
+
 def login_user():
     try:
         data = request.json
@@ -13,7 +15,9 @@ def login_user():
         user = User.query.filter_by(username=username,password=password).first()
         if user is None:
             return jsonify({'message':'Invalid credentials'}),401
-        return jsonify({'message':'Login successful'}),200
+        token = jwt.encode({'username':user.username,
+                            'exp':datetime.datetime.utcnow()+datetime.timedelta(minutes=60)}, 'your-secret')
+        return jsonify({'token':token})
     except Exception as e:
         return jsonify({'message':f'Error {e}'}),500
     

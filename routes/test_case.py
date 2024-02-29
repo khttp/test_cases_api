@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify
 from models.model import db, TestCase ,TestAsset,TestResult
 api = Blueprint('api',__name__)
+from auth.auth import token_required
 
 # create a new test case and store it in the SQLite database
 @api.route('/create_test_case',methods=['POST'])
+@token_required
 def create_test_case():
     try:
         data = request.json
@@ -18,6 +20,7 @@ def create_test_case():
     
 # • Retrieving a list of all test cases from the SQLite database
 @api.route('/get_test_cases',methods=['GET'])
+@token_required
 def get_test_cases():
     try:
         test_cases = TestCase.query.all()
@@ -34,6 +37,7 @@ def get_test_cases():
 
 # • Retrieving a single test case by its ID from the SQLite database
 @api.route('/get_test_case/<int:id>',methods=['GET'])
+@token_required
 def get_test_case(id):
     try:
         test_case = TestCase.query.get_or_404(id)
@@ -48,6 +52,7 @@ def get_test_case(id):
 
 # • Updating an existing test case in the SQLite database
 @api.route('/update_test_case/<int:id>',methods=['PUT'])
+@token_required
 def update_test_case(id):
     try:
         test_case = TestCase.query.get_or_404(id)
@@ -62,6 +67,7 @@ def update_test_case(id):
 
 # Deleting a test case by its ID from the SQLite database
 @api.route('/delete_test_case/<int:id>',methods=['DELETE'])
+@token_required
 def delete_test_case(id):
     try:
         test_case = TestCase.query.get_or_404(id)
